@@ -25,21 +25,33 @@ const char *tok_type_to_str(Token *token) {
     case DOUB_QUOTE:
         return "< \" >";
     case STR_T: { 
-        // char *str = (char *) malloc(30) ;
-        // strcat(str, (char *)"< string: ");
-        // strcat(str, token->value);
-        // strcat(str,(char *) " >");
-        // const char * ret_val = (const char*) str;
-        return "< string literal >";
+         char *str = (char *) calloc(1,30) ;
+         strcat(str, "< string: ");
+         strcat(str, token->value);
+         strcat(str, " >");
+         const char * ret_val = (const char*) str;
+        return ret_val;
     }
-    case INT_T:
-        return "< int >";
+    case INT_T:{
+         char *str = (char *) calloc(1,30) ;
+         strcat(str, "< int: ");
+         strcat(str, token->value);
+         strcat(str, " >");
+         const char * ret_val = (const char*) str;
+        return ret_val;
+    }
+
+        
     case DOUBLE_T:
         return "< double >";
     case BOOL_T:
         return "< bool >";
     case COL:
         return "< colon >";
+    case NEGATE:
+        return "< negative >";
+    case COMMA:
+        return "< comma >";
 
     default:
         return "< ERROR >";

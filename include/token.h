@@ -14,11 +14,13 @@ typedef enum {
     CLSE_BRACKET,
     DOUB_QUOTE,
     COL,
+    COMMA,
     STR_T,
     INT_T,
     BOOL_T,
     DOUBLE_T,
-
+    UNDEFINED,
+    NEGATE
 } tok_type_t;
 
 typedef struct {

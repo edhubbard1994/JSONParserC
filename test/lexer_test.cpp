@@ -1,6 +1,9 @@
 #include "gtest/gtest.h"
 extern "C" {
-#include "json.c"
+    /*
+        *NOTE* these includes will error when run locally. Docker file structure is flattened from actual
+    */
+#include "json.c" 
 #include "token.c"
 }
 
@@ -43,14 +46,6 @@ TEST(lexer_test, get_int) {
 
 }
 
-TEST(lexer_test, get_negative_int) {
-     Lexer* lex = init_lexer("-15901");
-     long val = atol(get_int(lex));
-     
-     ASSERT_TRUE(val == -15901);
-     free(lex);
-    
-}
 
 
 TEST(lexer_test, get_next_token) {
@@ -81,7 +76,7 @@ TEST(lexer_test, get_next_token_multi) {
 }
 
 TEST(lexer_test, tokenize) {
-    Lexer *l = init_lexer(" { \"hello\" : \"world\" }");
+    Lexer *l = init_lexer(" { \"hello\" : \"world\", \"test\" : -76 }");
     Token **t = tokenize(l);
     volatile itr_t count = 0;
     for (int i = 0; i < 9; i++) {
