@@ -64,7 +64,7 @@ void ignore_whitespace(Lexer *lexer) {
 char *get_string(Lexer *lexer) {
     itr_t start = (lexer->itr);
     const void *start_index = &(lexer->string[start]);
-    while(lexer->current_char != '\"') {
+    while(lexer->current_char != '\"' || lexer->current_char != '\0' || lexer->current_char != NULL) {
         if (lexer->current_char == '\"') {
             break;
         }
@@ -138,6 +138,7 @@ Token *get_next_token(Lexer *lexer) {
             break;
         
     }
+    incr_lexer(lexer);
     return token;
 }
 
@@ -154,8 +155,7 @@ Token **tokenize(Lexer *lexer) {
         
         Token *current = get_next_token(lexer);
         tokens[count] = current;
-        printf("{ token type: %s }\n", tok_type_to_str(current) );
-        incr_lexer(lexer);
+        //printf("{ token type: %s }\n", tok_type_to_str(current) );
         count++;
     }
     return tokens;

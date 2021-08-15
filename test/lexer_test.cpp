@@ -15,8 +15,9 @@ TEST(lexer_test, init_lexer) {
 }
 
 TEST(lexer_test, get_string) {
-    Lexer* lex = init_lexer("\"Hello\"");
+    Lexer* lex = init_lexer("Hello\"");
     char * str = get_string(lex);
+    printf("STRING VAL: %s\n",str);
     ASSERT_FALSE(strcmp(str,"Hello"));
     free(str);
     free(lex);
