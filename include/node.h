@@ -6,45 +6,71 @@ extern "C" {
 #ifndef JSON_NODE_H
 #define JSON_NODE_H
 
-typedef enum {
-    False = 0,
-    True = 1
-} boolean;
+#include "token.h"
 
 typedef struct {
-    void *child;
-    void *next;
-} JSONObject;
-
-typedef struct {
+    root_type_t type;
     void *start;
-    void *next;
-} JSONArray;
+}Root;
+
+typedef enum {
+    ROOT_BLOCK,
+    ROOT_ARR
+}root_type_t;
+
+typedef struct {
+    Token *openBrace;
+    Token *closeBrace;
+    Pair  *pairs;
+}Block;
+
+typedef struct {
+    Token *openBracket;
+    Token *closeBracket;
+    Value *values;
+}Array;
 
 
-struct Str {
-    char *key;
-    char *value;
-    void *next;
-};
+typedef struct {
+    StringLiteral *key;
+    Value *value;
+}Pair;
 
-struct Int {
-    char *key;
-    int value;
-    void *next;
-};
 
-struct Double {
-    char *key;
-    double value;
-    void *next;
-};
+typedef struct {
+    value_type_t type;
+    void *value;
+}Value;
 
-struct Bool {
-    char *key;
-    boolean value;
-    void *next;
-};
+typedef enum {
+    VAL_BLOCK,
+    VAL_ARR,
+    VAL_NUM,
+    VAL_STRING
+}value_type_t;
+
+typedef struct {
+    Token *openQuote;
+    Token *closeQuote;
+    Token *value;
+}StringLiteral;
+
+typedef struct {
+    number_type_t type;
+    Token *negative;
+    Token *value;
+}Number;
+
+typedef enum {
+    INT,
+    DOUBLE
+}number_type_t;
+
+typedef struct {
+    Token *value;
+}IntegerLiteral;
+
+
 
 
 
