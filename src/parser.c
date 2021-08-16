@@ -1,4 +1,5 @@
 #include "parser.h"
+#include "node.h"
 
 
 ParserNode *init_parser() {
@@ -15,41 +16,90 @@ TokenItr *init_tok_itr(Token **tokens) {
     return itr;
 }
 
-ParserNode *parse(Token *tokens) {
+void advance_tok_itr(TokenItr *itr) {
+    itr->itr ++;
+    itr->token = itr->token_arr[itr->itr];
+}
+
+ParserNode *init_root() {
+    ParserNode *root = (ParserNode *) calloc(sizeof(ParserNode), 1);
+    Root *rootNode = (Root *) calloc(sizeof(Root), 1);
+    root->type = ROOT;
+    root->node = (void *) rootNode;
+    return root;
+}
+
+
+Root *parse(Token **tokens) {
+    TokenItr *itr = init_tok_itr(tokens);
+    ParserNode *root_node = init_root();
     
 
 }
 
-ParserNode *get_next_parse_node(Token *token, ParserNode *node) {
-    tok_type_t tok_type = token->type;
-    switch(tok_type) {
-        case OPN_BRACE: {
-
+ParserNode *get_next_parse_node(TokenItr *itr, ParserNode *node) {
+    node_type_t node_type = node->type;
+     ParserNode *nextNode = calloc(sizeof(ParserNode), 1);
+    switch(node_type) {
+        case ROOT: {
+            nextNode->node
         }
-        case CLSE_BRACE: {
 
-        }
-        case OPN_BRACKET: {
-
-        }
-        case CLSE_BRACKET: {
-
-        }
-        case DOUB_QUOTE: {
-
-        }
-        case COL: {
-
-        }
-        case COMMA: {
-
-        }
-        case STR_T: {
-
-        }
-        case INT_T: {
-
-        }
+        default:
+            return 0;
     }
 
+}
+
+
+
+
+Root *visitRoot(TokenItr *itr) {
+    Root *root = calloc(sizeof(Root),1);
+    if (itr->token->type == OPN_BRACE) {  
+        root->type = BLOCK;     
+        root->start = visitBlock(itr);
+
+    } else if (itr->token->type == OPN_BRACKET) {
+        root->type = ARRAY;
+        root->start = visitArray(itr);
+    } else {
+        root->start = visitError("JSON object must start with a { or [");
+    }
+}
+
+
+Block *visitBlock(TokenItr *itr) {
+    Block *block = calloc(sizeof(Block), 1);
+    block->openBrace = itr->token;
+    advance_tok_itr(itr);
+    if (itr->token->type != DOUB_QUOTE) {
+        return 0;
+    }
+}
+
+Array *visitArray(TokenItr *itr) {
+
+}
+
+Pair *visitPair(TokenItr *itr) {
+
+}
+
+Value *visitValue(TokenItr *itr) {
+
+}
+
+StringLiteral *visitStringLiteral(TokenItr *itr) {
+
+}
+
+IntegerLiteral *visitInteger(TokenItr *itr) {
+
+}
+
+CompilerError *visitError(char *message) {
+    CompilerError *err = calloc(sizeof(CompilerError),1);
+    err->message = message;
+    return err;
 }

@@ -29,8 +29,8 @@ typedef enum {
     NUMBER,
     STRING,
     NEGATION,
-    COLON,
-    COMMA
+    INT,
+    DOUBLE
 }node_type_t;
 
 

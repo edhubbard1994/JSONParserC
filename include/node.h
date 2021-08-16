@@ -56,6 +56,10 @@ typedef struct {
 }StringLiteral;
 
 typedef struct {
+    Token *boolValue;
+}Boolean;
+
+typedef struct {
     number_type_t type;
     Token *negative;
     Token *value;
@@ -69,6 +73,10 @@ typedef enum {
 typedef struct {
     Token *value;
 }IntegerLiteral;
+
+typedef struct {
+    char* message;
+}CompilerError;
 
 
 
