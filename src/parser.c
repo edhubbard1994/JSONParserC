@@ -76,6 +76,12 @@ Block *visitBlock(TokenItr *itr) {
     if (itr->token->type != DOUB_QUOTE) {
         return 0;
     }
+    int count, size = 1;
+    Pair **pairs = calloc(sizeof(Pair), count);
+    while(itr->token->type == DOUB_QUOTE) {
+        pairs[count] = visitPair(itr);
+
+    }
 }
 
 Array *visitArray(TokenItr *itr) {
