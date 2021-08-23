@@ -1,11 +1,54 @@
 #include "gtest/gtest.h"
-extern "C" {
-    /*
-        *NOTE* these includes will error when run locally. Docker file structure is flattened from actual
-    */
-#include "json.c" 
-#include "token.c"
+#include <string.h>
+
+    #include "parser.h"
+    #include "json.h"
+
+
+class ParseTest : public ::testing::Test{
+public:
+     Lexer *lexer;
+     Token **tokens;         
+    TokenItr *itr;
+
+    ParseTest(){
+        this->lexer = init_lexer(" { \"hello\" : \"world\", \"test\" : -76 }");
+        this->tokens = tokenize(lexer);
+        this->itr = init_tok_itr(tokens);
+    }
+
+    void setUp() {
+
+    }
+
+    void tearDown() {
+        free(this->lexer);
+        free(this->itr);
+        //for(Token* t : tokens) {
+        //    free(t);
+        //}
+        free(tokens);
+    }
+};
+
+TEST_F(ParseTest, test_block) {
+    Block *block = visitBlock(itr);
+    
+    ASSERT_TRUE(block->closeBrace != nullptr);
+    ASSERT_TRUE(block->openBrace != nullptr);
+    ASSERT_TRUE(block->pairs != nullptr);
 }
+
+TEST_F(ParseTest, test_pairs) {
+    Block *block = visitBlock(itr);
+    Pair **pairs = block->pairs;
+    printf("#####\n %s \n#####\n",pairs[0]->key->value->value);
+    ASSERT_TRUE(pairs[0]->key->value->type == STR_T);
+    ASSERT_FALSE(strcmp(pairs[0]->key->value->value, "hello"));
+}
+
+
+
 
 TEST(lexer_test, init_lexer) {
      Lexer* lex = init_lexer("\"Hello\"");

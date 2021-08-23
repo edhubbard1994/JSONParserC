@@ -29,6 +29,7 @@
 #define MAX_INT "2147483647"
 
 
+
 Lexer *init_lexer(const char* str) {
     Lexer *lex = (Lexer *) malloc(sizeof(Lexer));
     lex->string = str;
@@ -62,7 +63,7 @@ void ignore_whitespace(Lexer *lexer) {
 
 
 char *get_string(Lexer *lexer) {
-    itr_t start = (lexer->itr);
+    itr_t start = (lexer->itr) - 1;
     const void *start_index = &(lexer->string[start]);
     while(lexer->current_char != '\"' || lexer->current_char != '\0' || lexer->current_char != NULL) {
         if (lexer->current_char == '\"') {
@@ -72,9 +73,9 @@ char *get_string(Lexer *lexer) {
     }
     itr_t end = lexer->itr;
     unsigned int diff = (end - start) ;
-    char *string = (char *) malloc(1 + diff);
+    char *string = (char *) malloc( diff);
     decr_lexer(lexer);
-    return (char *) memcpy(string,start_index , diff); 
+    return (char *) memcpy(string,start_index, diff); 
 }
 
 char *get_int(Lexer *lexer) {
@@ -161,11 +162,7 @@ Token **tokenize(Lexer *lexer) {
     return tokens;
 }
 
-JSONObject *JSON_load(const char *contents) {
-    Lexer *lexer = init_lexer(contents);
-    tokenize(lexer);
-    return NULL;
-}
+
 
 
 

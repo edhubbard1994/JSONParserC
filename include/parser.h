@@ -7,17 +7,8 @@ extern "C" {
 
 #include "token.h"
 #include "pair.h"
+#include "node.h"
 
-typedef struct {
-    node_type_t type;
-    void *node;
-} ParserNode;
-
-typedef struct {
-    Token *token;
-    unsigned int itr;
-    Token **token_arr;
-}TokenItr;
 
 typedef enum {
     ROOT,
@@ -34,9 +25,25 @@ typedef enum {
 }node_type_t;
 
 
-ParserNode *init_parser();
-ParserNode *parse(Token *tokens);
 
+typedef struct {
+    Token *token;
+    unsigned int itr;
+    Token **token_arr;
+}TokenItr;
+
+
+TokenItr *init_tok_itr(Token **tokens);
+void advance_tok_itr(TokenItr *itr);
+
+Root *parse(Token **tokens);
+Block *visitBlock(TokenItr *itr);
+Array *visitArray(TokenItr *itr);
+Pair *visitPair(TokenItr *itr);
+Value *visitValue(TokenItr *itr);
+StringLiteral *visitStringLiteral(TokenItr *itr);
+IntegerLiteral *visitInteger(TokenItr *itr);
+CompilerError *visitError(char *message);
 
 
 #ifdef __CPLUSPLUS

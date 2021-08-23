@@ -27,8 +27,15 @@ typedef struct {
 }  Lexer;
 
 
-
-JSONObject *JSON_load(const char *contents);
+Lexer *init_lexer(const char* str);
+void incr_lexer(Lexer *lexer);
+void decr_lexer(Lexer *lexer);
+void ignore_whitespace(Lexer *lexer);
+char *get_string(Lexer *lexer);
+char *get_int(Lexer *lexer);
+char *get_double(Lexer *lexer);
+Token *get_next_token(Lexer *lexer);
+Token **tokenize(Lexer *lexer);
 
 
 
