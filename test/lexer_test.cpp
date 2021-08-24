@@ -42,7 +42,6 @@ TEST_F(ParseTest, test_block) {
 TEST_F(ParseTest, test_pairs) {
     Block *block = visitBlock(itr);
     Pair **pairs = block->pairs;
-    printf("#####\n %s \n#####\n",pairs[0]->key->value->value);
     ASSERT_TRUE(pairs[0]->key->value->type == STR_T);
     ASSERT_FALSE(strcmp(pairs[0]->key->value->value, "hello"));
 }

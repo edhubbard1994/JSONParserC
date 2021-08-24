@@ -64,6 +64,9 @@ void ignore_whitespace(Lexer *lexer) {
 
 char *get_string(Lexer *lexer) {
     itr_t start = (lexer->itr) - 1;
+    if (lexer->itr < 1) {
+        start = 0;
+    }
     const void *start_index = &(lexer->string[start]);
     while(lexer->current_char != '\"' || lexer->current_char != '\0' || lexer->current_char != NULL) {
         if (lexer->current_char == '\"') {
