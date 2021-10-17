@@ -31,7 +31,8 @@ COPY ./test/lexer_test.cpp ./test/parser_test.cpp   /code/test/
       /code/token.c \
       /code/parser.h \
       /code/parser.c \
-      \
+      /code/token_itr.h \
+      /code/token_itr.c \
 
     lexer_test.cpp -g -lgtest -lgtest_main -pthread -I /code/
 

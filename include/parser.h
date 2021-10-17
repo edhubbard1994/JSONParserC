@@ -8,6 +8,7 @@ extern "C" {
 #include "token.h"
 #include "pair.h"
 #include "node.h"
+#include "token_itr.h"
 
 
 typedef enum {
@@ -26,15 +27,6 @@ typedef enum {
 
 
 
-typedef struct {
-    Token *token;
-    unsigned int itr;
-    Token **token_arr;
-}TokenItr;
-
-
-TokenItr *init_tok_itr(Token **tokens);
-void advance_tok_itr(TokenItr *itr);
 
 Root *parse(Token **tokens);
 Block *visitBlock(TokenItr *itr);
