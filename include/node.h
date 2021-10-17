@@ -67,12 +67,14 @@ typedef struct {
 }Pair;
 
 typedef struct {
+    unsigned int pair_length;
     Token *openBrace;
     Token *closeBrace;
     Pair  **pairs;
 }Block;
 
 typedef struct {
+    unsigned int length;
     Token *openBracket;
     Token *closeBracket;
     Value *values;

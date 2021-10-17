@@ -5,14 +5,14 @@
 #include "node.h"
 #include "token_itr.h"
 
-Root *parse(Token **tokens);
-Block *delBlock(TokenItr *itr);
-Array *delArray(TokenItr *itr);
-Pair *delPair(TokenItr *itr);
-Value *delValue(TokenItr *itr);
-StringLiteral *delStringLiteral(TokenItr *itr);
-IntegerLiteral *delInteger(TokenItr *itr);
-CompilerError *delError(char *message);
+void delStart(Root *root);
+void delBlock(Block *block);
+void delArray(Array *array);
+void delPair(Pair *pair);
+void delValue(Value *value);
+void delStringLiteral(StringLiteral *str);
+void delInteger(IntegerLiteral *integer);
+
 
 
 #endif

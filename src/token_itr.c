@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "token_itr.h"
 
 TokenItr *init_tok_itr(Token **tokens) {

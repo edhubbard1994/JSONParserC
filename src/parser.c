@@ -49,9 +49,16 @@ Block *visitBlock(TokenItr *itr) {
     }
     int count= 0;
     int size = 1;
-    Pair **pairs = (Pair **) calloc(sizeof(Pair), count);
+    Pair **pairs = (Pair **) calloc(sizeof(Pair), size);
     while(itr->token->type == DOUB_QUOTE) {
        pairs[count] = visitPair(itr);
+       count ++;
+       if (count >= size) {
+           size *= 2;
+           pairs = (Pair **) realloc(pairs,size * sizeof(Pair));
+       }
+       block->pair_length = count + 1;
+
     }
     block->pairs = pairs;
     block->closeBrace = itr->token;
@@ -74,9 +81,13 @@ Array *visitArray(TokenItr *itr) {
         }
         values[count] = visitValue(itr);   
         count ++;
-        size ++;
-        values = (Value **) realloc(values, sizeof(Value));
+        if (count >= size) {
+            size *= 2;
+            values = (Value **) realloc(values, size * sizeof(Value));
+        }   
     }
+    array->closeBracket = itr->token;
+    array->length = count + 1;
     return array;
 
 }
