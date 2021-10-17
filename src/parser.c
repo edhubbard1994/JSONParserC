@@ -59,7 +59,8 @@ Block *visitBlock(TokenItr *itr) {
         free(block);
         return 0;
     }
-    int count, size = 1;
+    int count= 0;
+    int size = 1;
     Pair **pairs = (Pair **) calloc(sizeof(Pair), count);
     while(itr->token->type == DOUB_QUOTE) {
        pairs[count] = visitPair(itr);
