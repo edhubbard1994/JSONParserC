@@ -26,7 +26,6 @@ COPY ./test/lexer_test.cpp ./test/parser_test.cpp   /code/test/
       /code/json.h \
       /code/json.c \
       /code/node.h \
-      /code/node.c \
       /code/token.h \
       /code/token.c \
       /code/parser.h \
