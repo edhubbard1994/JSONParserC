@@ -21,6 +21,7 @@ typedef enum {
     DOUBLE_T,
     UNDEFINED,
     NEGATE,
+    PERIOD,
     END_OF_STR
 } tok_type_t;
 

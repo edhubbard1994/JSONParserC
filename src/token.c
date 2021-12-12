@@ -52,6 +52,10 @@ const char *tok_type_to_str(Token *token) {
         return "< negative >";
     case COMMA:
         return "< comma >";
+    case PERIOD:
+        return "< period >";
+    case END_OF_STR:
+        return "< || end of tokens || >";
 
     default:
         return "< ERROR >";

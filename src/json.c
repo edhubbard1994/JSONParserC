@@ -43,7 +43,6 @@ Lexer *init_lexer(const char* str) {
 
 void incr_lexer(Lexer *lexer) {
     if (lexer->current_char == '\0') { 
-        lexer->current_char = 0;
         return;
     }
     lexer->itr ++;
@@ -73,7 +72,7 @@ char *get_string(Lexer *lexer) {
     char *ret_ptr;
     const void *copy_start = &(lexer->string[start]);
 
-    printf("str start: %c\n", lexer->current_char);
+     
     while (lexer->string[end] != '"' 
             && lexer->string[end] != '\0'
             && lexer->string[end] != NULL) {
@@ -83,7 +82,7 @@ char *get_string(Lexer *lexer) {
     diff = end - start;
     str_mem = (char *) calloc(diff, sizeof(char));
     ret_ptr = (char *) memcpy(str_mem, copy_start, diff);
-    printf("the string is: %s\n", ret_ptr);
+     
     return ret_ptr;
 
 }
@@ -96,7 +95,7 @@ char *get_number(Lexer *lexer) {
     char *ret_ptr;
     const void *copy_start = &(lexer->string[start]);
 
-    printf("str start: %c\n", lexer->current_char);
+     
     while ((int) lexer->string[end] > 47 && (int) lexer->string[end] < 58 ) {
                 end ++;
                 incr_lexer(lexer);
@@ -104,7 +103,7 @@ char *get_number(Lexer *lexer) {
     diff = end - start;
     str_mem = (char *) calloc(diff, sizeof(char));
     ret_ptr = (char *) memcpy(str_mem, copy_start, diff);
-    printf("the string is: %s\n", ret_ptr);
+     
     return ret_ptr;
 }
 
@@ -118,32 +117,36 @@ Token *get_next_token(Lexer *lexer) {
     switch (lexer->current_char)
     {
         case OPEN_BRACE :
-            token = init_token( OPN_BRACE, &lexer->current_char);
-            
+            token = init_token( OPN_BRACE, &lexer->current_char);        
             break;
-        case CLOSE_BRACE:
-            token = init_token( CLSE_BRACE, &lexer->current_char);      
 
+        case CLOSE_BRACE:
+          
+            token = init_token( CLSE_BRACE, &lexer->current_char);      
             break;
+
         case DOUBLE_QUOTE:
             token = init_token( DOUB_QUOTE, &lexer->current_char);     
-            printf("double quotes \n");
+             
             break;
         case COLON_OPERATOR:
             token = init_token( COL, &lexer->current_char);
-            printf("colon separator\n");
+             
             break;
         case COMMA_OPERATOR:
             token = init_token(COMMA, &lexer->current_char);
-            printf("comma \n");
+             
             break;
         case '0'...'9':
-            token = init_token( INT_T,  get_int(lexer));
+            token = init_token( INT_T,  get_number(lexer));
             break;
 
         case NEGATIVE:
-            printf("negative\n");
+             
             token = init_token(NEGATE, &lexer->current_char);
+            break;
+        case DOT:
+            token = init_token(PERIOD, &lexer->current_char);
             break;
         case 'a'...'z':
         case 'A'...'Z':
@@ -153,12 +156,13 @@ Token *get_next_token(Lexer *lexer) {
         case RET:
         case TAB:
         case WHITESPACE:
-            printf("space\n");
+             
             incr_lexer(lexer);
             return get_next_token(lexer);
             break;
 
         case EOS:
+          
             token = init_token( END_OF_STR, "00");
             break;
         
@@ -172,25 +176,28 @@ Token *get_next_token(Lexer *lexer) {
     return token;
 }
 
-Token **tokenize(Lexer *lexer) {
+TokenArr *tokenize(Lexer *lexer) {
     size_t arr_size = 20;
     Token **tokens = (Token **) calloc(arr_size,sizeof(Token));
     volatile itr_t count = 0;
     ignore_whitespace(lexer);
-    while(lexer->current_char != 0) {
+    Token *current;
+    while(current->type != END_OF_STR) {
         if (count >= arr_size){
+            // dynamic resizing like ArrayList
             arr_size *= 2;
             tokens = (Token **) realloc(tokens,(arr_size * sizeof(Token)) );
         }
         
-        Token *current = get_next_token(lexer);
+        current = get_next_token(lexer);
         tokens[count] = current;
        
         count++;
     }
-    // so delete itr's do not seg fault
-    tokens = (Token **) realloc(tokens,sizeof(Token)); 
-    return tokens;
+    TokenArr * token_arr = calloc(1,sizeof(TokenArr));
+    token_arr->tokens = tokens;
+    token_arr->count = count;
+    return token_arr;
 }
 
 

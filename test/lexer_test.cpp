@@ -86,9 +86,9 @@ TEST(lexer_test, ignore_whitespace_false) {
     free(lex);
 }
 
-TEST(lexer_test, get_int) {
+TEST(lexer_test, get_number) {
     Lexer* lex = init_lexer("15901");
-    long val = atol(get_int(lex));
+    long val = atol(get_number(lex));
     
     ASSERT_TRUE(val == 15901);
     free(lex);
@@ -123,16 +123,16 @@ TEST(lexer_test, get_next_token_multi) {
 }
 
 TEST(lexer_test, tokenize) {
-    Lexer *l = init_lexer(" {   \"hello\" : \"world\", \"test\" : -76 }");
+    Lexer *l = init_lexer(" {   \"hello\" : \"world\", \"test\" : -76.20 }");
     Token **t = tokenize(l);
     volatile itr_t count = 0;
     for (int i = 0; i < 9; i++) {
         const char *tok = tok_type_to_str( (t[i]));
-        std::cout << tok;
+        std::cout<< "token: " << tok << std::endl;
     }
     ASSERT_TRUE(1);
     free(l);
-    deleteTokens(t);
+    //deleteTokens(t);
 }
 
 
