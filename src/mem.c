@@ -1,5 +1,13 @@
 #include "mem.h"
+#include <stdlib.h>
 
+void deleteTokens(Token **tokens) {
+    volatile unsigned int count;
+    while(tokens[count] != 0) {
+        free(tokens[count]);
+    }
+    free(tokens);
+}
 
 void freeRoot(Root *root) {
     if (root->type == ROOT_BLOCK) {  

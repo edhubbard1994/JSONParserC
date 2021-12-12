@@ -25,6 +25,8 @@ COPY ./test/lexer_test.cpp ./test/parser_test.cpp   /code/test/
   RUN g++  \
       /code/json.h \
       /code/json.c \
+      /code/mem.h \
+      /code/mem.c \
       /code/node.h \
       /code/token.h \
       /code/token.c \

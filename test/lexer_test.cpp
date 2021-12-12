@@ -1,8 +1,10 @@
 #include "gtest/gtest.h"
 #include <string.h>
+#include <iostream>
 
-    #include "parser.h"
-    #include "json.h"
+#include "parser.h"
+#include "json.h"
+#include "mem.h"
 
 
 class ParseTest : public ::testing::Test{
@@ -27,11 +29,16 @@ public:
         //for(Token* t : tokens) {
         //    free(t);
         //}
-        free(tokens);
+        deleteTokens(tokens);
     }
 };
-
+/*
 TEST_F(ParseTest, test_block) {
+    int c = 0;
+    while(true) {
+        std::cout << this->tokens[c]->type << std::endl;
+        c++;
+    }
     Block *block = visitBlock(itr);
     
     ASSERT_TRUE(block->closeBrace != nullptr);
@@ -45,8 +52,7 @@ TEST_F(ParseTest, test_pairs) {
     ASSERT_TRUE(pairs[0]->key->value->type == STR_T);
     ASSERT_FALSE(strcmp(pairs[0]->key->value->value, "hello"));
 }
-
-
+*/
 
 
 TEST(lexer_test, init_lexer) {
@@ -67,29 +73,27 @@ TEST(lexer_test, get_string) {
 }
 
 TEST(lexer_test,ignore_whitespace) {
-     Lexer* lex = init_lexer("   start");
-     ignore_whitespace(lex);
-     ASSERT_TRUE(lex->current_char == 's');
-     free(lex);
+    Lexer* lex = init_lexer("   start");
+    ignore_whitespace(lex);
+    ASSERT_TRUE(lex->current_char == 's');
+    free(lex);
 }
 
 TEST(lexer_test, ignore_whitespace_false) {
-     Lexer* lex = init_lexer("start");
-     ignore_whitespace(lex);
-     ASSERT_TRUE(lex->current_char == 's');
-     free(lex);
+    Lexer* lex = init_lexer("start");
+    ignore_whitespace(lex);
+    ASSERT_TRUE(lex->current_char == 's');
+    free(lex);
 }
 
 TEST(lexer_test, get_int) {
-     Lexer* lex = init_lexer("15901");
-     long val = atol(get_int(lex));
-     
-     ASSERT_TRUE(val == 15901);
-     free(lex);
+    Lexer* lex = init_lexer("15901");
+    long val = atol(get_int(lex));
+    
+    ASSERT_TRUE(val == 15901);
+    free(lex);
 
 }
-
-
 
 TEST(lexer_test, get_next_token) {
     Lexer *l = init_lexer(" { \"hello\" : \"world\" }");
@@ -102,7 +106,7 @@ TEST(lexer_test, get_next_token) {
 }
 
 TEST(lexer_test, get_next_token_multi) {
-    Lexer *l = init_lexer(" { \"hello\" : \"world\" }");
+    Lexer *l = init_lexer("   { \"hello\" : \"world\" }");
     Token* t = get_next_token(l);
     Token* t2 = get_next_token(l);
     Token* t3 = get_next_token(l);
@@ -119,16 +123,16 @@ TEST(lexer_test, get_next_token_multi) {
 }
 
 TEST(lexer_test, tokenize) {
-    Lexer *l = init_lexer(" { \"hello\" : \"world\", \"test\" : -76 }");
+    Lexer *l = init_lexer(" {   \"hello\" : \"world\", \"test\" : -76 }");
     Token **t = tokenize(l);
     volatile itr_t count = 0;
     for (int i = 0; i < 9; i++) {
         const char *tok = tok_type_to_str( (t[i]));
-        
+        std::cout << tok;
     }
     ASSERT_TRUE(1);
     free(l);
-    free(t);
+    deleteTokens(t);
 }
 
 

@@ -13,6 +13,8 @@ void delValue(Value *value);
 void delStringLiteral(StringLiteral *str);
 void delInteger(IntegerLiteral *integer);
 
+void deleteTokens(Token **tokens);
+
 
 
 #endif

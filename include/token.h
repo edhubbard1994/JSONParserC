@@ -20,7 +20,8 @@ typedef enum {
     BOOL_T,
     DOUBLE_T,
     UNDEFINED,
-    NEGATE
+    NEGATE,
+    END_OF_STR
 } tok_type_t;
 
 typedef struct {
