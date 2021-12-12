@@ -17,7 +17,7 @@ WORKDIR /code
 
 COPY ./src /code/
 COPY ./include /code/
-COPY ./test/lexer_test.cpp ./test/parser_test.cpp   /code/test/
+COPY ./test/lexer_test.h ./test/parser_test.h ./test/test.cpp  /code/test/
 
 
   WORKDIR /code/test
@@ -34,8 +34,9 @@ COPY ./test/lexer_test.cpp ./test/parser_test.cpp   /code/test/
       /code/parser.c \
       /code/token_itr.h \
       /code/token_itr.c \
-
-    lexer_test.cpp -g -lgtest -lgtest_main -pthread -I /code/
+      lexer_test.h \
+      parser_test.h \
+      test.cpp -g -lgtest -lgtest_main -pthread -I /code/
 
 
 
