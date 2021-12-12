@@ -1,7 +1,11 @@
 #include "parser.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 
+void parse_error(char *error) {
+    printf("Parser Error:\n %s\n",error);
+}
 
 
 
@@ -96,9 +100,11 @@ Pair *visitPair(TokenItr *itr) {
     Pair *pair = (Pair *) calloc(sizeof(Pair), 1);
     pair->key = visitStringLiteral(itr);
     if (itr->token->type != COL) {
+        parse_error("expected ':' separator in key value pair");
         free(pair);
         return 0;
     }
+    advance_tok_itr(itr);
     pair->value = visitValue(itr);
     return pair;
 
@@ -111,7 +117,7 @@ Value *visitValue(TokenItr *itr) {
             value->value = visitInteger(itr);
             break;
         }
-        case STR_T: {
+        case DOUB_QUOTE: {
             value->value = visitStringLiteral(itr);
             break;
         }
@@ -127,6 +133,8 @@ Value *visitValue(TokenItr *itr) {
              break;
         }
         default: {
+            parse_error("expected primitive data type or object for json value");
+            free(value);
             return 0;
         }     
     }
@@ -135,10 +143,25 @@ Value *visitValue(TokenItr *itr) {
 
 StringLiteral *visitStringLiteral(TokenItr *itr) {
     StringLiteral *str = (StringLiteral *) calloc(sizeof(StringLiteral),1);
+    if (itr->token->type != DOUB_QUOTE) {
+        parse_error("strings must start with \" char ");
+        free(str);
+        return NULL;
+    }
     str->openQuote = itr->token;
     advance_tok_itr(itr);
+    if (itr->token->type != STR_T) {
+        free(str);
+        return NULL;
+    }
     str->value = itr->token;
     advance_tok_itr(itr);
+
+    if (itr->token->type != DOUB_QUOTE) {
+        parse_error("strings must end with \" char ");
+        free(str);
+        return NULL;
+    }
     str->closeQuote = itr->token;
     advance_tok_itr(itr);
     return str;
@@ -156,3 +179,5 @@ CompilerError *visitError(char *message) {
     err->message = message;
     return err;
 }
+
+
