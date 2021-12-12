@@ -5,6 +5,7 @@
 #include "node.h"
 #include "token_itr.h"
 
+
 void delStart(Root *root);
 void delBlock(Block *block);
 void delArray(Array *array);
@@ -13,7 +14,7 @@ void delValue(Value *value);
 void delStringLiteral(StringLiteral *str);
 void delInteger(IntegerLiteral *integer);
 
-void deleteTokens(Token **tokens);
+void deleteTokens(TokenArr *tokens);
 
 
 

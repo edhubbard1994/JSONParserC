@@ -8,7 +8,7 @@
 
 
 
-Root *parse(Token **tokens) {
+Root *parse(TokenArr *tokens) {
     TokenItr *itr = init_tok_itr(tokens);
     return 0;
 

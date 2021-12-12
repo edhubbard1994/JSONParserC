@@ -1,10 +1,11 @@
 #include "mem.h"
+
 #include <stdlib.h>
 
-void deleteTokens(Token **tokens) {
+void deleteTokens(TokenArr *tokens) {
     volatile unsigned int count;
-    while(tokens[count] != 0) {
-        free(tokens[count]);
+    for (count = 0; count < tokens->count; count ++) {
+        free(tokens->tokens[count]);
     }
     free(tokens);
 }

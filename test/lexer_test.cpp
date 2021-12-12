@@ -2,15 +2,15 @@
 #include <string.h>
 #include <iostream>
 
-#include "parser.h"
-#include "json.h"
-#include "mem.h"
 
+#include "parser.h"
+#include "lexer.h"
+#include "mem.h"
 
 class ParseTest : public ::testing::Test{
 public:
-     Lexer *lexer;
-     Token **tokens;         
+    Lexer *lexer;
+    TokenArr *tokens;         
     TokenItr *itr;
 
     ParseTest(){
@@ -124,16 +124,18 @@ TEST(lexer_test, get_next_token_multi) {
 
 TEST(lexer_test, tokenize) {
     Lexer *l = init_lexer(" {   \"hello\" : \"world\", \"test\" : -76.20 }");
-    Token **t = tokenize(l);
+    TokenArr *t = tokenize(l);
     volatile itr_t count = 0;
-    for (int i = 0; i < 9; i++) {
-        const char *tok = tok_type_to_str( (t[i]));
+    for (int i = 0; i < t->count; i++) {
+        const char *tok = tok_type_to_str( (t->tokens[i]));
         std::cout<< "token: " << tok << std::endl;
     }
-    ASSERT_TRUE(1);
+    std::cout << t->count << std::endl;
+    ASSERT_TRUE(t->count  == 19);
     free(l);
-    //deleteTokens(t);
+    deleteTokens(t);
 }
+
 
 
 

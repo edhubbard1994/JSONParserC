@@ -6,11 +6,11 @@
 typedef struct {
     Token *token;
     unsigned int itr;
-    Token **token_arr;
+    TokenArr *token_arr;
 }TokenItr;
 
 
-TokenItr *init_tok_itr(Token **tokens);
+TokenItr *init_tok_itr(TokenArr *tokens);
 void advance_tok_itr(TokenItr *itr);
 
 

@@ -1,12 +1,11 @@
+#ifndef JSON_H
+#define JSON_H
+
 #ifdef __CPLUSPLUS
 extern "C" {
 #endif
 
-
-#ifndef JSON_H
-#define JSON_H
-
-#include "node.h"
+#include "token.h"
 
 #include <stdlib.h>
 
@@ -26,10 +25,7 @@ typedef struct {
     const char *string;
 }  Lexer;
 
-typedef struct {
-    Token **tokens;
-    size_t count;
-} TokenArr;
+
 
 
 Lexer *init_lexer(const char* str);
@@ -42,11 +38,10 @@ char *get_double(Lexer *lexer);
 Token *get_next_token(Lexer *lexer);
 TokenArr *tokenize(Lexer *lexer);
 
-
-
-
-#endif
-
 #ifdef __CPLUSPLUS
 }
 #endif
+
+
+#endif
+

@@ -1,6 +1,3 @@
-#ifdef __CPLUSPLUS
-extern "C" {
-#endif
 
 
 #ifndef JSON_NODE_H
@@ -94,6 +91,3 @@ typedef struct {
 
 #endif
 
-#ifdef __CPLUSPLUS
-}
-#endif

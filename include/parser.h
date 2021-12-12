@@ -1,9 +1,7 @@
 #ifndef __PARSER_H
 #define __PARSER_H
 
-#ifdef __CPLUSPLUS
-extern "C" {
-#endif
+
 
 #include "token.h"
 #include "pair.h"
@@ -28,7 +26,7 @@ typedef enum {
 
 
 
-Root *parse(Token **tokens);
+Root *parse(TokenArr *tokens);
 Block *visitBlock(TokenItr *itr);
 Array *visitArray(TokenItr *itr);
 Pair *visitPair(TokenItr *itr);
@@ -38,8 +36,6 @@ IntegerLiteral *visitInteger(TokenItr *itr);
 CompilerError *visitError(char *message);
 
 
-#ifdef __CPLUSPLUS
-}
-#endif
+
 
 #endif

@@ -1,6 +1,4 @@
-#ifdef __CPLUSPLUS
-extern "C" {
-#endif
+
 
 
 #ifndef TOKEN_H
@@ -30,6 +28,10 @@ typedef struct {
     char *value;
 } Token;
 
+typedef struct {
+    Token **tokens;
+    unsigned int count;
+} TokenArr;
 
 Token *init_token(tok_type_t type, char *val);
 const char *tok_type_to_str(Token *token);
@@ -40,6 +42,3 @@ const char *tok_type_to_str(Token *token);
 
 #endif
 
-#ifdef __CPLUSPLUS
-}
-#endif

@@ -23,8 +23,8 @@ COPY ./test/lexer_test.cpp ./test/parser_test.cpp   /code/test/
   WORKDIR /code/test
 
   RUN g++  \
-      /code/json.h \
-      /code/json.c \
+      /code/lexer.h \
+      /code/lexer.c \
       /code/mem.h \
       /code/mem.c \
       /code/node.h \

@@ -1,4 +1,4 @@
-#include "json.h"
+#include "lexer.h"
 #include "token.h"
 
 #include <regex.h>
@@ -79,6 +79,7 @@ char *get_string(Lexer *lexer) {
                 end ++;
                 incr_lexer(lexer);
             }
+    decr_lexer(lexer);
     diff = end - start;
     str_mem = (char *) calloc(diff, sizeof(char));
     ret_ptr = (char *) memcpy(str_mem, copy_start, diff);
@@ -100,6 +101,7 @@ char *get_number(Lexer *lexer) {
                 end ++;
                 incr_lexer(lexer);
             }
+    decr_lexer(lexer);
     diff = end - start;
     str_mem = (char *) calloc(diff, sizeof(char));
     ret_ptr = (char *) memcpy(str_mem, copy_start, diff);
@@ -194,7 +196,7 @@ TokenArr *tokenize(Lexer *lexer) {
        
         count++;
     }
-    TokenArr * token_arr = calloc(1,sizeof(TokenArr));
+    TokenArr * token_arr = (TokenArr *) calloc(1,sizeof(TokenArr));
     token_arr->tokens = tokens;
     token_arr->count = count;
     return token_arr;
