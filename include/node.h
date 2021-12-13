@@ -24,6 +24,8 @@ typedef struct {
     number_type_t type;
     Token *negative;
     Token *value;
+    Token *decimal;
+    Token *decimal_value;
 }Number;
 
 typedef struct {

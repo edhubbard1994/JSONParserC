@@ -113,6 +113,9 @@ Pair *visitPair(TokenItr *itr) {
 Value *visitValue(TokenItr *itr) {
     Value *value = (Value *) calloc(sizeof(Value),1);
     switch(itr->token->type) {
+        case NEGATE: {
+            value->value = visitInteger(itr);
+        }
         case INT_T: {
             value->value = visitInteger(itr);
             break;
@@ -138,6 +141,7 @@ Value *visitValue(TokenItr *itr) {
             return 0;
         }     
     }
+     advance_tok_itr(itr);
      return value;
 }
 
@@ -167,9 +171,52 @@ StringLiteral *visitStringLiteral(TokenItr *itr) {
     return str;
 }
 
+Number *visitNumber(TokenItr *itr) {
+    Number *number = (Number *) calloc(sizeof(Number), 1);
+    char *temp_value;
+    if (itr->token->type == NEGATE) {
+        number->negative = itr->token;
+        advance_tok_itr(itr);
+    } 
+    if (itr->token->type != INT_T) {
+        free(number);
+        parse_error("Expected Number Type");
+        return 0;
+    }
+    number->value = itr->token;
+    advance_tok_itr(itr);
+    if (itr->token->type == PERIOD) {
+        // additional parsing if number is a double
+        number->type = DOUB;
+        number->decimal = itr->token;
+        advance_tok_itr(itr);
+        if (itr->token->type != INT_T) {
+
+            free(number);
+            parse_error("expected value in double value.");
+            return 0;
+
+        }
+        number->decimal_value = itr->token;
+        advance_tok_itr(itr);
+        return number;
+
+    }
+    number->type = INTEG;
+    advance_tok_itr(itr);
+    return number;
+}
+
 IntegerLiteral *visitInteger(TokenItr *itr) {
     IntegerLiteral *integer = (IntegerLiteral *) calloc(sizeof(IntegerLiteral), 1);
-    integer->value = itr->token;
+    int isNegative = 0;
+    char *temp_value;
+    if (itr->token->type == NEGATE) {
+        isNegative = 1;
+        advance_tok_itr(itr);
+    }
+    temp_value = itr->token->value;
+    //integer->value
     advance_tok_itr(itr);
     return integer;
 }
