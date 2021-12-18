@@ -33,6 +33,7 @@ Pair *visitPair(TokenItr *itr);
 Value *visitValue(TokenItr *itr);
 StringLiteral *visitStringLiteral(TokenItr *itr);
 IntegerLiteral *visitInteger(TokenItr *itr);
+Number *visitNumber(TokenItr *itr);
 CompilerError *visitError(char *message);
 
 

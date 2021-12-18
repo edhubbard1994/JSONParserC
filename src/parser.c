@@ -114,10 +114,10 @@ Value *visitValue(TokenItr *itr) {
     Value *value = (Value *) calloc(sizeof(Value),1);
     switch(itr->token->type) {
         case NEGATE: {
-            value->value = visitInteger(itr);
+            value->value = visitNumber(itr);
         }
         case INT_T: {
-            value->value = visitInteger(itr);
+            value->value = visitNumber(itr);
             break;
         }
         case DOUB_QUOTE: {
